@@ -64,7 +64,7 @@ def end_queue(query: dict):
     if not queue:
         return response_fail('缺少参数: queue')
 
-    if not queue_map.get('queue'):
+    if not queue_map.get(queue):
         return response_fail(f'队列: <{queue}>未在运行')
 
     os.kill(queue_map.get(queue), SIGTERM)
