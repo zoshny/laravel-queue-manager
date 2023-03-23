@@ -2,6 +2,10 @@
 
 > 在 windows 中使用 laravel 队列时，无法高效的直接使用 php 动态创建或销毁队列进程，所以使用 python 做了一个 laravel 队列管理器。更多功能待完善中...
 
+## 打包
+
+执行根目录下的`setup.py`即可完成打包。
+
 ## 启动程序
 
 直接打开`LaravelQueueManager-x.x.x.exe`程序。

@@ -14,6 +14,7 @@ version = get_version()
 args = [
     './src/main.py',
     '-F',
+    '-i=favicon.ico',
     f'--name=LaravelQueueManager-{version}',
     '--console',
 ]
