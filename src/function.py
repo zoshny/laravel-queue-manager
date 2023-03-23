@@ -1,4 +1,5 @@
-from urllib.parse import urlparse, parse_qsl
+import subprocess
+from urllib.parse import parse_qsl, urlparse
 
 
 def response_success(data=None, message=""):
@@ -43,3 +44,15 @@ def parse_url(url):
     query = parsed_url.query
     query = dict(parse_qsl(query))
     return path, query
+
+
+def is_process_running(pid: int):
+    '''
+    根据pid，判断指定进程是否存在
+    '''
+
+    try:
+        output = subprocess.check_output(['tasklist', '/FI', f'PID eq {pid}'])
+        return f"{pid}".encode('utf-8') in output
+    except subprocess.CalledProcessError:
+        return False

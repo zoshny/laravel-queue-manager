@@ -48,6 +48,9 @@ def check_env():
 
 
 def start_http_server():
+    '''
+    启动http服务器
+    '''
 
     port = int(os.getenv('port') or 5280)
 
@@ -64,11 +67,14 @@ def start_http_server():
             # 根据请求路径执行相应的方法
             response = {}
 
-            if (path == '/api/startQueue'):
+            if (path == '/api/start'):
                 response = start_queue(query)
 
-            elif (path == '/api/endQueue'):
+            elif (path == '/api/end'):
                 response = end_queue(query)
+
+            if (path == '/api/getStatus'):
+                response = get_queue_status(query)
 
             else:
                 response = {"code": 404, 'message': '请求接口不存在'}

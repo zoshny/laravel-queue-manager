@@ -37,8 +37,8 @@ def start_queue(query: dict):
         # 在子进程中启动队列监听器
         process = subprocess.Popen(
             cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
             cwd=os.getenv('PROJECT_PATH')
         )
 
@@ -72,3 +72,25 @@ def end_queue(query: dict):
     logging.info(f'shutdown queue: <{queue}> success')
 
     return response_success()
+
+
+def get_queue_status(query: dict):
+    '''
+    获取指定队列的运行状态
+    '''
+
+    queue = query.get('queue')
+
+    if not queue:
+        return response_fail('缺少参数: queue')
+
+    if not queue_map.get(queue):
+        return response_success({"status": 0, "flag": "STOPPED", "explain": "未在运行"})
+
+    # 判断子进程是存在
+    if is_process_running(queue_map.get(queue)):
+        return response_success({"status": 1, "flag": "RUNNING", "explain": "正在运行"})
+
+    # 进程pid存在在map中，但并未在系统中运行
+    else:
+        return response_success({"status": -1, "flag": "EXCEPTION", "explain": "运行异常"})
