@@ -73,7 +73,7 @@ def start_http_server():
             elif (path == '/api/end'):
                 response = end_queue(query)
 
-            if (path == '/api/getStatus'):
+            elif (path == '/api/getStatus'):
                 response = get_queue_status(query)
 
             else:

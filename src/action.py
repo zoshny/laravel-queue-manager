@@ -69,6 +69,8 @@ def end_queue(query: dict):
 
     os.kill(queue_map.get(queue), SIGTERM)
 
+    del queue_map[queue]
+
     logging.info(f'shutdown queue: <{queue}> success')
 
     return response_success()
