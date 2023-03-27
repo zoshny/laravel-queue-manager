@@ -39,8 +39,9 @@ def check_env():
     环境变量文件检查
     '''
 
-    default_env = "# http server port\nPORT=5280\n\n"
-    default_env += "# laravel project root path\nPROJECT_PATH=\n\n"
+    default_env = "# http server host\nHOST=127.0.0.1"
+    default_env = "\n\n# http server port\nPORT=5280"
+    default_env += "\n\n# laravel project root path\nPROJECT_PATH="
 
     if not os.path.isfile('.env'):
         with open('.env', "w") as f:
@@ -51,6 +52,8 @@ def start_http_server():
     '''
     启动http服务器
     '''
+
+    host = os.getenv('host') or "0.0.0.0"
 
     port = int(os.getenv('port') or 5280)
 
@@ -76,6 +79,9 @@ def start_http_server():
             elif (path == '/api/getStatus'):
                 response = get_queue_status(query)
 
+            elif (path == '/api/getList'):
+                response = get_queue_list()
+
             else:
                 response = {"code": 404, 'message': '请求接口不存在'}
 
@@ -90,11 +96,16 @@ def start_http_server():
         def log_request(self, code='-', size='-'):
             pass
 
-    with socketserver.TCPServer(("", port), RequestHandler) as httpd:
+    with socketserver.TCPServer((host, port), RequestHandler) as httpd:
 
-        logging.info(f"Serving at http://0.0.0.0:{port}/")
+        logging.info(f"HTTP Serving at http://{host}:{port}/")
 
-        httpd.serve_forever()
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            logging.info("Stopping HTTP server...")
+            httpd.shutdown()
+            logging.info("HTTP server stopped")
 
 
 if __name__ == "__main__":

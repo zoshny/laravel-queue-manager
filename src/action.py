@@ -96,3 +96,10 @@ def get_queue_status(query: dict):
     # 进程pid存在在map中，但并未在系统中运行
     else:
         return response_success({"status": -1, "flag": "EXCEPTION", "explain": "运行异常"})
+
+
+def get_queue_list():
+    '''
+    获取当前的队列列表
+    '''
+    return response_success(list(queue_map.keys()))
