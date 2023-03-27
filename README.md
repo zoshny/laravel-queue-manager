@@ -68,7 +68,7 @@
 | flag    | string     | 运行状态描述常量；`STOPPED`、`RUNNING`、`EXCEPTION` |
 | explain | string     | 运行状态描述解释语                                  |
 
-### 启动所有队列列表
+### 获取所有队列列表
 
 **请求地址：** `/api/getList`
 
