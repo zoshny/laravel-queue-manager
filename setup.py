@@ -1,5 +1,3 @@
-import re
-
 import PyInstaller.__main__ as pyinstaller_main
 
 

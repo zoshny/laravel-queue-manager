@@ -9,7 +9,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 
-from action import *
+from queue_action import *
 from function import *
 
 today = datetime.today()
@@ -28,7 +28,7 @@ def logging_init():
         format='%(asctime)s [%(levelname)s] %(message)s',
         datefmt='%H:%M:%S',
         handlers=[
-            logging.FileHandler("log/" + today.strftime("%Y-%m-%d") + ".log"),
+            logging.FileHandler("log/" + today.strftime("%Y-%m-%d") + ".log", encoding='utf-8'),
             logging.StreamHandler()
         ]
     )
@@ -79,9 +79,6 @@ def start_http_server():
             elif (path == '/api/getStatus'):
                 response = get_queue_status(query)
 
-            elif (path == '/api/getList'):
-                response = get_queue_list()
-
             else:
                 response = {"code": 404, 'message': '请求接口不存在'}
 
@@ -112,5 +109,7 @@ if __name__ == "__main__":
     logging_init()
     check_env()
     load_dotenv()
+
+    start_daemon()
 
     start_http_server()
