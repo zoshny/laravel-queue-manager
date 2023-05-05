@@ -102,6 +102,7 @@ def start_http_server():
         except KeyboardInterrupt:
             logging.info("Stopping HTTP server...")
             httpd.shutdown()
+            daemon_thread_exit_flag.set()
             logging.info("HTTP server stopped")
 
 

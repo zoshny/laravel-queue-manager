@@ -11,6 +11,9 @@ from function import *
 # 当前已启动的队列列表
 queue_list = {}
 
+# 守护线程退出标志
+daemon_thread_exit_flag = threading.Event()
+
 
 def start_queue(query: dict):
     '''
@@ -135,7 +138,7 @@ def start_daemon():
     def worker():
 
         # 每10秒检查一次守护进程的检查
-        while True:
+        while True and not daemon_thread_exit_flag.is_set():
 
             for name in queue_list:
 
